@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WHO-Based Lifestyle Suggestions</title>
+  <style>
+    /* General Body Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      /*background-image: url('https://images.unsplash.com/photo-1494597564530-871f2b93ac55?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aGVhbHRoJTIwcmVjb21tZW5kYXRpb25zfGVufDB8fDB8fHww');*/
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: rgb(99, 95, 95);
+      padding: 10px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    header h2 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+    }
+
+    nav button {
+      background-color: white;
+      color:black;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    nav button:hover {
+      background-color: rgb(152, 145, 145);
+      color: white;
+    }
+
+    .container {
+      background-color: rgba(239, 237, 237, 0.8);
+      border-radius: 100px;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      width: 100%;
+      max-width: 600px;
+      margin: 100px auto;
+      box-sizing: border-box;
+      display: none;
+      border: 3px solid black; 
+    }
+
+    .container.active {
+      display: block;
+    }
+
+    h1 {
+      font-size: 2em;
+      color: black;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 1.1em;
+      color: #333;
+      margin-top: 15px;
+      display: block; 
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 1em;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    input:focus, button:focus {
+      border-color: gray;
+      outline: none;
+    }
+
+    button {
+      background-color: gray;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: gray;
+    }
+
+    .result p {
+      font-size: 1.2em;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .asana {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px 0;
+    }
+
+    .asana img {
+      width: 80%;
+      max-width: 300px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .asana p {
+      font-size: 1.1em;
+      color: #555;
+      text-align: center;
+      margin-top: 10px;
+    }
+    #backgroundSlider {
+  position: fixed; /* Fixed position so the background stays in place */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; /* Full height of the viewport */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  z-index: -1; /* Ensure the background stays behind content */
+}
+
+.container {
+  position: relative;
+  z-index: 1; /* Ensure content stays on top of the background */
+  padding: 20px;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+
+    /* Content Styling */
+    .content {
+      position: relative;
+      z-index: 1;
+      padding: 50px;
+      text-align: center;
+      color: white;
+    }
+
+    .content h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+
+    .content p {
+      font-size: 1.5em;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Background Image Slider -->
+  <div id="backgroundSlider"></div>
+<div class="container">
+  <h1>Your Content Here</h1>
+  <p>Some more content...</p>
+</div>
+
+  <!-- Page Content -->
+  <header>
+    <h2>Healthy Lifestyle</h2>
+    <nav>
+      <button onclick="scrollToTop()">Home</button>
+      <button onclick="navigateTo('bmi')">BMI Calculator</button>
+      <button onclick="navigateTo('exercise')">Yoga Asanas</button>
+      <button onclick="navigateTo('food')">Food Intake</button>
+      <button onclick="navigateTo('sleepingHours')">Sleeping Hours</button>
+      
+    </nav>
+  </header>
+
+  <div class="container" id="bmiContainer">
+    <h1>BMI Calculator</h1>
+    <form id="bmiForm">
+      <label for="age">Age:</label>
+      <input type="number" id="age" required>
+      <label for="weight">Weight (kg):</label>
+      <input type="number" id="weight" required>
+      <label for="height">Height (cm):</label>
+      <input type="number" id="height" required>
+      <button type="button" onclick="calculateBMI()">Calculate BMI</button>
+      <button type="button" onclick="resetForm()">Reset</button>
+    </form>
+    <div id="bmiResult"></div>
+  </div>
+
+  <div class="container" id="exerciseContainer">
+    <h1>Yoga Asanas</h1>
+    <form id="exerciseForm">
+      <label for="age">Enter your age:</label>
+      <input type="number" id="age" required>
+      <button type="button" onclick="getExerciseSuggestions()">Submit</button>
+    </form>
+    <div id="exerciseResult"></div>
+  </div>
+
+  <div class="container" id="foodContainer">
+    <h1>Food Intake Recommendations</h1>
+    <form id="foodForm">
+      <label for="age">Enter your age:</label>
+      <input type="number" id="foodAge" required>
+      <button type="button" onclick="getFoodSuggestions()">Submit</button>
+    </form>
+    <div id="foodResult"></div>
+    <div id="foodImageContainer" style="margin-top: 20px;">
+      <img id="foodImage" src="" alt="Food Recommendations" style="max-width: 50%; height: auto; display: none;">
+    </div>
+  
+  </div>
+  <div id="sleeping-hours-btn" class="container">
+    <h3>Minimum Sleeping Hours for Different Age Groups:</h3>
+    <ul>
+        <li>Newborns (0-3 months): 14-17 hours</li><br>
+        <li>Infants (4-11 months): 12-15 hours</li><br>
+        <li>Toddlers (1-2 years): 11-14 hours</li><br>
+        <li>Preschoolers (3-5 years): 10-13 hours</li><br>
+        <li>School-age children (6-13 years): 9-11 hours</li><br>
+        <li>Teens (14-17 years): 8-10 hours</li><br>
+        <li>Adults (18-64 years): 7-9 hours</li><br>
+        <li>Older Adults (65+ years): 7-8 hours</li><br>
+    </ul>
+</div>
+
+  <script>
+     const images = [
+  "https://blogimage.vantagefit.io/vfitimages/2023/06/6__Quotes.png",
+  "https://t3.ftcdn.net/jpg/02/71/18/54/360_F_271185487_yGHcdeskA4TtjlKMaSD4HvRGVAIiorqc.jpg",
+  "https://img.freepik.com/free-vector/border-design-with-woman-doing-yoga_1308-35911.jpg",
+  "https://www.shutterstock.com/image-illustration/nutrition-concept-vegan-food-healthy-260nw-1948235959.jpg",
+  "https://st4.depositphotos.com/13324256/20725/i/450/depositphotos_207250452-stock-photo-top-view-food-composition-various.jpg"
+];
+
+let currentIndex = 0;
+
+function changeBackgroundImage() {
+  const backgroundSlider = document.getElementById('backgroundSlider');
+  backgroundSlider.style.backgroundImage = `url('${images[currentIndex]}')`;
+  
+  // Move to the next image, and loop back to the first image
+  currentIndex = (currentIndex + 1) % images.length;
+}
+
+// Change background image every 5 seconds
+setInterval(changeBackgroundImage, 5000);
+
+// Initialize with the first background image
+changeBackgroundImage();
+
+function scrollToTop() {
+  // Hide all sections
+  document.querySelectorAll('.container').forEach(container => {
+    container.classList.remove('active');
+  });
+  
+  // Scroll to the top of the page
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+
+    function navigateTo(section) {
+      document.querySelectorAll('.container').forEach(container => {
+        container.classList.remove('active');
+      });
+
+      if (section === 'bmi') {
+        document.getElementById('bmiContainer').classList.add('active');
+      } else if (section === 'exercise') {
+        document.getElementById('exerciseContainer').classList.add('active');
+      } else if (section === 'food') {
+        document.getElementById('foodContainer').classList.add('active');
+      }
+      else if (section=='sleepingHours'){
+        document.getElementById('sleeping-hours-btn').classList.add('active');
+      }
+    }
+    function calculateBMI() {
+    const age = parseInt(document.getElementById('age').value);
+    const weight = parseFloat(document.getElementById('weight').value);
+    const height = parseFloat(document.getElementById('height').value) / 100;
+
+    if (!age || !weight || !height) {
+      alert("Please fill out all fields correctly!");
+      return;
+    }
+
+    const bmi = (weight / (height * height)).toFixed(2);
+    let resultMessage = '';
+
+    // BMI interpretation based on age group
+    if (age >= 18 && age < 65) {
+      // Adults
+      if (bmi < 18.5) {
+        const requiredWeight = (18.5 * height * height).toFixed(1);
+        resultMessage = `Your BMI is ${bmi} (Underweight). You need to gain at least ${(requiredWeight - weight).toFixed(1)} kg to reach a normal BMI.`;
+      } else if (bmi < 24.9) {
+        resultMessage = `Your BMI value is ${bmi} (Normal weight). Great job! Maintain your current weight.`;
+      } else if (bmi < 29.9) {
+        const requiredWeight = (24.9 * height * height).toFixed(1);
+        resultMessage = `Your BMI value is ${bmi} (Overweight). You need to lose ${(weight - requiredWeight).toFixed(1)} kg to reach a normal BMI.`;
+      } else {
+        const requiredWeight = (24.9 * height * height).toFixed(1);
+        resultMessage = `Your BMI value is ${bmi} (Obese). You need to lose ${(weight - requiredWeight).toFixed(1)} kg to reach a normal BMI.`;
+      }
+    } else if (age < 18) {
+      // Children and Adolescents
+      resultMessage = `Your BMI is ${bmi}. Please consult a healthcare provider to interpret your BMI based on age and sex-specific growth charts.`;
+    } else if (age >= 65) {
+      // Elderly
+      if (bmi < 22) {
+        resultMessage = `Your BMI is ${bmi} (Underweight). Consider consulting a healthcare provider to address potential nutritional concerns.`;
+      } else if (bmi <= 27) {
+        resultMessage = `Your BMI value is ${bmi} (Normal weight). Great job! Maintain your current weight.`;
+      } else {
+        resultMessage = `Your BMI value is ${bmi} (Overweight). Consider consulting a healthcare provider for personalized advice.`;
+      }
+    }
+
+    document.getElementById('bmiResult').innerHTML = `<p>${resultMessage}</p>`;
+  }
+
+  function resetForm() {
+    document.getElementById('bmiForm').reset();
+    document.getElementById('bmiResult').innerHTML = '';
+  }
+
+
+    function getExerciseSuggestions() {
+      const age = parseInt(document.getElementById('age').value);
+
+
+      let exerciseRecommendation = '';
+      if(age<9){
+        exerciseRecommendation=`
+        <div class="asana">
+          <p>Before the age of seven, children should not do yoga. This is because their heart’s capacity to pump blood is limited and it may not be able to handle the heightened load during practice.</p>
+            </div>`;
+      }
+      else if (age>=9 && age<=19) {
+        exerciseRecommendation = `
+          <div class="asana">
+            <h2>Surya Namaskar (Sun Salutation)</h2>
+            <img src="https://th.bing.com/th/id/OIP.6VZZW2oDne9waUWM4yeEoQAAAA?rs=1&pid=ImgDetMain" alt="Surya Namaskar">
+            <p>1. Start with standing at the front of the mat with feet together.<br>
+               2. Inhale and raise both arms above your head, join palms.<br>
+               3. Exhale and bend forward, bringing hands to the floor.<br>
+               4. Continue with the sequence, alternating between inhale and exhale for each pose.</p>
+            <h2>Virabhadrasana</h2>
+            <img src="https://yogapractice.com/wp-content/uploads/2020/07/The-Ultimate-Guide-To-Warrior-I-Pose-%E2%80%94-Virabhadrasana-I-1200x798.jpg" alt="Vrikshasana">
+            <p>1.Stand straight with your legs wide apart.
+               2.Turn your right foot out by 90 degrees.
+               3.And turn left foot in by 15 degrees.
+               4.Lift both arms sideways to shoulder height with your palms facing upwards.
+               5.Now breathe out and bend your right knee.
+               6.Turn your head to your right. Push your hips down and hold the posture.
+               7.Breathe in while you come up..</p>
+            <h2>Naukasana</h2>
+            <img src="https://th.bing.com/th/id/OIP.gYAbEboidj1zV03sH78DegHaHa?w=1200&h=1200&rs=1&pid=ImgDetMain" alt="Naukasana">
+            <p>1.Lie down flat on a mat on your back.
+               2.Breathe in and hold the breath.
+               3.Raise your arms, shoulders, head and trunk off the ground.
+               4.Balance body on buttocks and keep the spine straight.
+               5.Keep arms in the same line as your toes with palms facing downwards.</p>
+          </div>`;
+      } else if (age >= 20 && age <= 35) {
+        exerciseRecommendation = `
+          <div class="asana">
+            <h2>Trikonasana (Triangle Pose)</h2>
+            <img src="https://th.bing.com/th/id/OIP.ad4cn9m5SuG-LvHGHJ0vGAHaIG?w=937&h=1024&rs=1&pid=ImgDetMain" alt="Trikonasana">
+            <p>1. Stand with feet wide apart.<br>
+               2. Extend arms to the sides.<br>
+               3. Reach one hand down toward your foot while the other hand points up.<br>
+               4. Hold the pose for 20-30 seconds, and then switch sides.</p>
+             <h2>Sukhasana</h2>
+            <img src="https://th.bing.com/th/id/R.11f7abbe2982232b3c25158f686edfb1?rik=D4NOro8Ezxvlkw&riu=http%3a%2f%2flifenlesson.com%2fwp-content%2fuploads%2f2017%2f02%2fsukhasana.jpg&ehk=uXVcFbA7vvoV9C%2bd77CsoT0u%2f4IIIWgVVe4deYeV35o%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1" alt="Sukhasana">
+            <p>1.Sit with your legs stretched in front.
+               2.Bend your knees and fold your legs towards your middle.
+               3.Cross your legs and keep the arches of the foot on the thighs.
+               4.Sit with your hips in a neutral position.</p>
+               </div>`;
+      } else if (age >= 35 && age<=60) {
+        exerciseRecommendation = `
+          <div class="asana">
+            <h2>Vajrasana</h2>
+            <img src="https://th.bing.com/th/id/OIP.GqW76Ly_Zgn70D3xbIOyTgHaFj?rs=1&pid=ImgDetMain" alt="Vajrasana">
+            <p>1. Stand tall with arms by your sides.<br>
+               2. Place the sole of one foot on the inner thigh or calf of the opposite leg.<br>
+               3. Bring palms together in front of the chest.<br>
+               4. Balance and hold the pose for 30 seconds.</p>
+            <h2>Halasana</h2>
+            <img src="https://www.fashionlady.in/wp-content/uploads/2018/06/halasana-yoga-pose.jpg" alt="Halasana">
+            <p>1.Lie on your back with knees bent and legs together.
+               2.Place your hands underneath the back supporting it.
+               3.Exhale and swing your knees and thighs over your torso.
+               4.Raise your hips and abdomen to support the position.
+               5.Straighten your legs parallel to the ground..</p>
+               </div>`;
+      } else {
+        exerciseRecommendation = `
+          <div class="asana">
+            <h2>Meditation</h2>
+            <img src="https://theindiasaga.com/wp-content/uploads/2024/07/yoga-scaled.jpg" alt="Meditation">
+            <p></p>
+          </div>`;
+      }
+
+      document.getElementById('exerciseResult').innerHTML = `<p>Your recommended exercise:</p>${exerciseRecommendation}`;
+    }
+
+    function getFoodSuggestions() {
+      const age = parseInt(document.getElementById('foodAge').value);
+
+      if (!age || age <= 0) {
+        alert("Please enter a valid age!");
+        return;
+      }
+
+      let foodRecommendation = '';
+      let imageUrl = '';  
+      if (age <=12) {
+        foodRecommendation = `
+        <b>*Fruits*:</b><br>
+         - Apples, bananas, oranges, and berries (rich in Vitamin C and antioxidants).<br>
+         - Papaya and mangoes for Vitamin A.<br>
+         - Avoid canned fruits with added sugars.<br>
+       <b>*Vegetables*:</b><br>
+         - Dark leafy greens like spinach and kale for iron and calcium.<br>
+         - Carrots, sweet potatoes, and bell peppers for Vitamin A.<br>
+         - Broccoli and peas for Vitamin C.<br>
+       <b>*Dairy Products*:</b><br>
+        - Whole milk or fortified plant-based alternatives for calcium.<br>
+        - Yogurt (preferably unsweetened) for probiotics.<br>
+        - Cheese in moderation for calcium and protein.<br>
+       <b>*Proteins*:</b><br>
+        - Eggs, lean chicken, and fish (rich in omega-3 fatty acids for brain development).<br>
+        - Lentils, beans, and chickpeas as vegetarian sources.<br>
+        - Nuts and seeds (almonds, walnuts) in small amounts.<br>
+       <b>*Minerals*:</b><br>
+        - Calcium: Dairy products, fortified orange juice, tofu.<br>
+        - Iron: Fortified cereals, leafy greens, and lean meats.<br>
+        - Zinc: Eggs, legumes, and nuts.<br>
+      <b>*Vitamins*:</b><br>
+        - Vitamin D: Fortified milk and sunlight.<br>
+        - Vitamin B12: Eggs and dairy products.<br>
+      <b>*Sugar Levels*:</b><br>
+       - Avoid sugary snacks; replace them with fruits like berries and bananas.<br>
+       - Limit juice intake to one small serving per day, and prefer fresh juices.<br>
+`;
+imageUrl = 'children.png';  
+      } else if (age < 20) {
+        foodRecommendation = `
+        <b> *Fruits*</b><br>:
+- Citrus fruits like oranges and grapefruit for Vitamin C.<br>
+- Avocado for healthy fats.<br>
+- Berries for antioxidants and brain health.<br>
+
+<b>*Vegetables*:</b><br>
+- Cruciferous vegetables like broccoli and cauliflower for fiber.<br>
+- Sweet potatoes for Vitamin A.<br>
+- Beets for folate and iron.<br>
+
+<b>*Dairy*:</b><br>
+- Low-fat milk or fortified plant-based milk for calcium.<br>
+- Greek yogurt for high protein and probiotics.<br>
+- Cheese in limited quantities.<br>
+
+<b>*Proteins*:</b><br>
+- Lean meat, fish, and eggs for muscle growth.<br>
+- Quinoa, lentils, and chickpeas as plant-based options.<br>
+- Peanut butter (unsweetened) for healthy fats.<br>
+
+<b>*Minerals*:</b><br>
+- Magnesium: Almonds, spinach, and whole grains.<br>
+- Calcium: Dairy, fortified products, and leafy greens.<br>
+- Potassium: Bananas, oranges, and potatoes.<br>
+
+<b> *Vitamins*:</b><br>
+- Vitamin E: Nuts and seeds.<br>
+- Vitamin K: Spinach, kale, and broccoli.<br>
+
+<b> *Sugar Levels*:</b><br>
+- Reduce processed sugars; prefer natural sweeteners like honey (in moderation).<br>
+- Snack on dried fruits without added sugar.<br>
+`;
+imageUrl = 'teenagers.png';
+      } else if (age <=60) {
+        foodRecommendation = `
+          <b> *Fruits*:</b><br>
+- Apples, berries, and kiwi for fiber and Vitamin C.<br>
+- Watermelon and oranges for hydration and potassium.<br>
+- Avoid over consumption of fruits with high glycemic index like grapes.<br>
+
+<b> *Vegetables*:</b><br>
+- Dark leafy greens and cruciferous vegetables for detoxification.<br>
+- Root vegetables like carrots and beets for energy.<br>
+- Mushrooms for Vitamin D.<br>
+
+<b> *Dairy*:</b><br>
+- Skim milk or fortified almond milk.<br>
+- Low-fat yogurt for digestion and calcium.<br>
+- Cottage cheese as a protein source.<br>
+
+<b> *Proteins*:</b><br>
+- Skinless poultry, fish (especially salmon and sardines for omega-3).<br>
+- Lentils and beans for plant-based protein.<br>
+- Eggs and tofu.<br>
+
+<b> *Minerals*:</b><br>
+- Iron: Lean meats, beans, and fortified cereals.<br>
+- Calcium: Dairy and fortified plant-based options.<br>
+- Selenium: Nuts, especially Brazil nuts.<br>
+
+<b>*Vitamins*:</b><br>
+- Vitamin C: Citrus fruits, bell peppers, and strawberries.<br>
+- Vitamin A: Sweet potatoes, carrots, and spinach.<br>
+
+<b> *Sugar Levels*:</b><br>
+- Opt for complex carbohydrates and limit sugary drinks.<br>
+- Include snacks like nuts and dark chocolate (unsweetened).<br>
+`;
+imageUrl = 'adults.png';
+      } else {
+        foodRecommendation = `
+          <b>*Fruits*:</b><br>
+- Soft fruits like bananas and ripe pears for easy digestion.<br>
+- Blueberries and strawberries for antioxidants.<br>
+- Papaya and mango for Vitamin A.<br>
+
+<b> *Vegetables*:</b><br>
+- Soft-cooked vegetables like zucchini, spinach, and squash.<br>
+- Broccoli and cauliflower for calcium and Vitamin K.<br>
+- Tomatoes for lycopene (heart health).<br>
+
+<b> *Dairy*:</b><br>
+- Fortified low-fat milk or soy milk.<br>
+- Soft cheeses like ricotta and paneer.<br>
+- Yogurt for probiotics.<br>
+
+<b> *Proteins*:</b><br>
+- Soft fish like salmon and cod.<br>
+- Lentils and scrambled eggs for easy digestion.<br>
+- Smooth nut butter for protein and healthy fats.<br>
+
+<b> *Minerals*:</b><br>
+- Calcium: Fortified plant-based milk and leafy greens.<br>
+- Magnesium: Nuts, seeds, and whole grains.<br>
+- Potassium: Bananas, potatoes, and avocados.<br>
+
+<b> *Vitamins*:</b><br>
+- Vitamin D: Fortified milk and sunlight.<br>
+- Vitamin B12: Eggs, dairy, and fortified cereals.<br>
+
+<b> *Sugar Levels*:</b><br>
+- Avoid refined sugars; use natural sweeteners like stevia if needed.<br>
+- Monitor blood sugar with snacks like nuts and low-glycemic fruits.<br>
+`;
+imageUrl = 'elderly.png';
+      }
+
+      document.getElementById('foodResult').innerHTML = `<p>Your recommended food intake:</p>${foodRecommendation}`;
+      const foodImage=document.getElementById('foodImage');
+      foodImage.src=imageUrl;
+      foodImage.style.display='block';
+    }
+// Event listener for the Sleeping Hours button
+document.getElementById("sleeping-hours-btn").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent the default link behavior
+
+    // Get the container element
+    const sleepingHoursContainer = document.getElementById("sleeping-hours-info");
+
+    // Toggle the display of the container
+    if (sleepingHoursContainer.style.display === "none") {
+        sleepingHoursContainer.style.display = "block"; // Show the container
+    } else {
+        sleepingHoursContainer.style.display = "none"; // Hide the container
+    }
+});
+
+
+  </script>
+</body>
+</html>
