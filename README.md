@@ -41,10 +41,10 @@ graphql
 Copy
 Edit
 .
-├── index.html         # Main HTML file
-├── images/            # Folder for any local image assets (optional)
-├── style.css          # (Optional) External CSS if separated
-├── script.js          # (Optional) External JavaScript if separated
+├── index.html         
+├── images/            
+├── style.css          
+├── script.js          
 ⚙️ How to Run
 Download or clone the repository.
 
