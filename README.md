@@ -37,10 +37,7 @@ CSS: Styling, responsiveness, and animations.
 JavaScript: Interactive behavior, calculations, and dynamic content updates.
 
 📁 Folder Structure
-graphql
-Copy
-Edit
-.
+
 ├── index.html         
 ├── images/            
 ├── style.css          
